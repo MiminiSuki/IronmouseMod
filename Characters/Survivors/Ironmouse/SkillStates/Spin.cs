@@ -49,7 +49,7 @@ namespace IronmouseMod.Survivors.Ironmouse.SkillStates
            
             if (characterMotor && !characterMotor.isGrounded)
             {
-                 SmallHop(characterMotor, 5);
+                 SmallHop(characterMotor, 40);
             }
 
             base.OnEnter();
