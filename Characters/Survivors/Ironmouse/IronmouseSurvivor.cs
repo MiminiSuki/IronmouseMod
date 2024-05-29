@@ -432,7 +432,7 @@ namespace IronmouseMod.Survivors.Ironmouse
 
         private void inflictMouseyBurn(GameObject victim, GameObject attacker, float procCoefficient, bool crit)
         {
-            DotController.InflictDot(victim, attacker, IronmouseDots.MouseyBurn, 5, (crit ? 2 : 1) * procCoefficient);
+            DotController.InflictDot(victim, attacker, IronmouseDots.MouseyBurn, 5, 5, 5);
         }
 
         private void inflictBubiBurn(GameObject victim, GameObject attacker, float procCoefficient, bool crit)
