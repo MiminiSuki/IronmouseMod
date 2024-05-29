@@ -1,4 +1,6 @@
 ﻿using EntityStates;
+using IronmouseMod.Survivors.Ironmouse;
+using R2API;
 using RoR2;
 using RoR2.Audio;
 using RoR2.Skills;
@@ -44,11 +46,12 @@ namespace IronmouseMod.Modules.BaseStates
         private float hitPauseTimer;
         private OverlapAttack attack;
         protected bool inHitPause;
-        //private bool hasHopped; alguem me disse q isso ia quebra tudo
         protected float stopwatch;
         protected Animator animator;
         private HitStopCachedState hitStopCachedState;
         private Vector3 storedVelocity;
+
+        public OverlapAttack overlapAttack = new OverlapAttack();
 
         public override void OnEnter()
         {
@@ -59,7 +62,7 @@ namespace IronmouseMod.Modules.BaseStates
 
             PlayAttackAnimation();
 
-            attack = new OverlapAttack();
+            attack = overlapAttack;
             attack.damageType = damageType;
             attack.attacker = gameObject;
             attack.inflictor = gameObject;

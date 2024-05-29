@@ -3,6 +3,7 @@ using IronmouseMod.Modules;
 using IronmouseMod.Modules.Characters;
 using IronmouseMod.Survivors.Ironmouse.Components;
 using IronmouseMod.Survivors.Ironmouse.SkillStates;
+using R2API;
 using RoR2;
 using RoR2.Skills;
 using System;
@@ -105,6 +106,8 @@ namespace IronmouseMod.Survivors.Ironmouse
             IronmouseStates.Init();
             IronmouseTokens.Init();
 
+            IronmouseDots.Init();
+
             IronmouseAssets.Init(assetBundle);
             IronmouseBuffs.Init(assetBundle);
 
@@ -116,6 +119,9 @@ namespace IronmouseMod.Survivors.Ironmouse
             AdditionalBodySetup();
 
             AddHooks();
+
+            CharacterBody HenryBody = bodyPrefab.GetComponent<CharacterBody>();
+            HenryBody.bodyFlags |= CharacterBody.BodyFlags.SprintAnyDirection;
         }
 
         private void AdditionalBodySetup()
@@ -154,7 +160,6 @@ namespace IronmouseMod.Survivors.Ironmouse
             //remove the genericskills from the commando body we cloned
             Skills.ClearGenericSkills(bodyPrefab);
             //add our own
-            //you want a passive idiot
             AddPassiveSkill();
             AddPrimarySkills();
             AddSecondarySkills();
@@ -207,7 +212,10 @@ namespace IronmouseMod.Survivors.Ironmouse
                 skillName = "HenryGun",
                 skillNameToken = IRONMOUSE_PREFIX + "SECONDARY_GUN_NAME",
                 skillDescriptionToken = IRONMOUSE_PREFIX + "SECONDARY_GUN_DESCRIPTION",
-                keywordTokens = new string[] { "KEYWORD_AGILE" + "KEYWORD_HEAVY" + Tokens.mouseyburnKeyword },
+                keywordTokens = new string[] { 
+                    Tokens.agileKeyword,
+                    Tokens.heavyKeyword,
+                    Tokens.mouseyburnKeyword },
                 skillIcon = assetBundle.LoadAsset<Sprite>("texSecondaryIcon"),
 
                 activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.Spin)),
@@ -408,5 +416,29 @@ namespace IronmouseMod.Survivors.Ironmouse
                 args.baseMoveSpeedAdd += 8;
             }
         }
+
+        private void GlobalEventManager_onServerDamageDealt(DamageReport damageReport)
+        {
+            if (DamageAPI.HasModdedDamageType(damageReport.damageInfo, IronmouseDots.MouseyDamage))
+            {
+                inflictMouseyBurn(damageReport.victim.gameObject, damageReport.attacker, damageReport.damageInfo.procCoefficient, false);
+            }
+
+            if (DamageAPI.HasModdedDamageType(damageReport.damageInfo, IronmouseDots.BubiDamage))
+            {
+                inflictBubiBurn(damageReport.victim.gameObject, damageReport.attacker, damageReport.damageInfo.procCoefficient, false);
+            }
+        }
+
+        private void inflictMouseyBurn(GameObject victim, GameObject attacker, float procCoefficient, bool crit)
+        {
+            DotController.InflictDot(victim, attacker, IronmouseDots.MouseyBurn, 5, (crit ? 2 : 1) * procCoefficient);
+        }
+
+        private void inflictBubiBurn(GameObject victim, GameObject attacker, float procCoefficient, bool crit)
+        {
+            DotController.InflictDot(victim, attacker, IronmouseDots.BubiBurn, 5, (crit ? 2 : 1) * procCoefficient);
+        }
+
     }
 }

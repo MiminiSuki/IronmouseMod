@@ -2,6 +2,7 @@
 using RoR2;
 using UnityEngine;
 using UnityEngine.Networking;
+using R2API;
 
 namespace IronmouseMod.Survivors.Ironmouse.SkillStates
 {
@@ -10,13 +11,12 @@ namespace IronmouseMod.Survivors.Ironmouse.SkillStates
         public override void OnEnter()
         {
             hitboxGroupName = "SwordGroup";
-
             damageType = DamageType.Generic;
             damageCoefficient = IronmouseStaticValues.spinDamageCoefficient;
             procCoefficient = 1f;
             pushForce = 300f;
             bonusForce = Vector3.zero;
-            baseDuration = 1.2f;
+            baseDuration = 2f;
             duration = baseDuration;
 
             //0-1 multiplier of baseduration, used to time when the hitbox is out (usually based on the run time of the animation)
@@ -49,10 +49,23 @@ namespace IronmouseMod.Survivors.Ironmouse.SkillStates
            
             if (characterMotor && !characterMotor.isGrounded)
             {
-                 SmallHop(characterMotor, 40);
+                 SmallHop(characterMotor, 10);
             }
 
             base.OnEnter();
+        }
+        private void FireAttack()
+        {
+            if (base.isAuthority)
+            {
+                ApplyModdedDamageType(overlapAttack);
+            }
+        }
+
+        protected void ApplyModdedDamageType(OverlapAttack attack)
+        {
+            System.Console.WriteLine("Infliction go!");
+            attack.AddModdedDamageType(IronmouseDots.MouseyDamage);
         }
 
         protected override void PlayAttackAnimation()

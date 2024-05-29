@@ -20,19 +20,19 @@ namespace IronmouseMod.Survivors.Ironmouse
         {
             string prefix = IronmouseSurvivor.IRONMOUSE_PREFIX;
 
-            string desc = "Ironmouse is a skilled fighter who makes use of a wide arsenal of weaponry to take down his foes.<color=#CCD3E0>" + Environment.NewLine + Environment.NewLine
-             + "< ! > Sword is a good all-rounder while Boxing Gloves are better for laying a beatdown on more powerful foes." + Environment.NewLine + Environment.NewLine
-             + "< ! > Pistol is a powerful anti air, with its low cooldown and high damage." + Environment.NewLine + Environment.NewLine
-             + "< ! > Roll has a lingering armor buff that helps to use it aggressively." + Environment.NewLine + Environment.NewLine
-             + "< ! > Bomb can be used to wipe crowds with ease." + Environment.NewLine + Environment.NewLine;
+            string desc = "Ironmouse is a mobile survivor, utilizing her mobile weave between enemies and defeat them gracefully.<color=#CCD3E0>" + Environment.NewLine + Environment.NewLine
+             + "< ! > Ironmouse plays a hit and run play style. Get in, deal damage with Spin, and use your mobility to get out and attack safely with Pewpew!" + Environment.NewLine + Environment.NewLine
+             + "< ! > idk" + Environment.NewLine + Environment.NewLine
+             + "< ! > fill these out later" + Environment.NewLine + Environment.NewLine
+             + "< ! > you wouldn't leave them like this, would you?" + Environment.NewLine + Environment.NewLine;
 
-            string outro = "..and so she left, the end fuck you.";
-            string outroFailure = "..and so she died, lol. lmao.";
+            string outro = "..and so she left, ready for her next big stream.";
+            string outroFailure = "..and so she died. lol. lmao even. no more cinnamonroll for you dummy.";
 
             Language.Add(prefix + "NAME", "Ironmouse");
             Language.Add(prefix + "DESCRIPTION", desc);
-            Language.Add(prefix + "SUBTITLE", "The Chosen One");
-            Language.Add(prefix + "LORE", "sample lore");
+            Language.Add(prefix + "SUBTITLE", "The Demon Queen");
+            Language.Add(prefix + "LORE", "idk go look at a vtuber wiki or something");
             Language.Add(prefix + "OUTRO_FLAVOR", outro);
             Language.Add(prefix + "OUTRO_FAILURE", outroFailure);
 
@@ -47,7 +47,7 @@ namespace IronmouseMod.Survivors.Ironmouse
 
             #region Primary
             Language.Add(prefix + "PRIMARY_PEWPEW_NAME", "Pew Pew!");
-            Language.Add(prefix + "PRIMARY_PEWPEW_DESCRIPTION", Tokens.agilePrefix + $"Shoot a beam that deals <style=cIsDamage>{100f * IronmouseStaticValues.spinDamageCoefficient}% damage</style>.");
+            Language.Add(prefix + "PRIMARY_PEWPEW_DESCRIPTION", Tokens.agilePrefix + $"Shoot a beam that deals <style=cIsDamage>{100f * IronmouseStaticValues.pewpewDamageCoefficient}% damage</style>.");
             #endregion
 
             #region Secondary
