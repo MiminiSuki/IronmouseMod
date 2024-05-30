@@ -8,6 +8,8 @@ namespace IronmouseMod.Survivors.Ironmouse.SkillStates
 {
     public class Spin : BaseMeleeAttack
     {
+        private int amountPreZoomies;
+        private int amountZoomies;
         public override void OnEnter()
         {
             hitboxGroupName = "SwordGroup";
@@ -45,9 +47,8 @@ namespace IronmouseMod.Survivors.Ironmouse.SkillStates
             if (NetworkServer.active)
             {
                 characterBody.AddTimedBuff(IronmouseBuffs.speedyBuff, baseDuration);
-                characterBody.AddTimedBuff(IronmouseBuffs.zoomiesBuff, 5f, 5);
+                AddPassive();
             }
-
            
             if (characterMotor && !characterMotor.isGrounded)
             {
@@ -67,6 +68,21 @@ namespace IronmouseMod.Survivors.Ironmouse.SkillStates
         {
             PlayCrossfade("Gesture, Override", "Slash" + 1, playbackRateParam, duration, 0.1f * duration);
         }
+        private void AddPassive()
+        {
+            characterBody.AddTimedBuff(IronmouseBuffs.zoomiesBuff, 5, 5);
+
+            if (characterBody.GetBuffCount(IronmouseBuffs.zoomiesBuff) > 0)
+            {
+                foreach (CharacterBody.TimedBuff timedBuff in characterBody.timedBuffs)
+                {
+                    if (timedBuff.buffIndex == IronmouseBuffs.zoomiesBuff.buffIndex)
+                    {
+                        timedBuff.timer = 5;
+                    }
+                }
+            }
+        }
 
         protected override void PlaySwingEffect()
         {
@@ -82,5 +98,6 @@ namespace IronmouseMod.Survivors.Ironmouse.SkillStates
         {
             base.OnExit();
         }
+
     }
 }

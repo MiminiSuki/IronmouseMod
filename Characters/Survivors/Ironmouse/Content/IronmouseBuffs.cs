@@ -15,26 +15,26 @@ namespace IronmouseMod.Survivors.Ironmouse
         public static void Init(AssetBundle assetBundle)
         {
             speedyBuff = Modules.Content.CreateAndAddBuff("IronmouseSpeedyBuff",
-                LegacyResourcesAPI.Load<BuffDef>("BuffDefs/HiddenInvincibility").iconSprite,
+                LegacyResourcesAPI.Load<BuffDef>("BuffDefs/whipboost").iconSprite,
                 Color.grey,
                 false,
                 false);
 
             zoomiesBuff = Modules.Content.CreateAndAddBuff("IronmouseZoomiesBuff",
-                LegacyResourcesAPI.Load<BuffDef>("BuffDefs/HiddenInvincibility").iconSprite,
-                Color.blue,
+                LegacyResourcesAPI.Load<BuffDef>("BuffDefs/whipboost").iconSprite,
+                Color.magenta,
                 true,
                 false);
 
             mouseyburnDebuff = Modules.Content.CreateAndAddBuff("IronmouseBurnDebuff",
-                LegacyResourcesAPI.Load<BuffDef>("BuffDefs/HiddenInvincibility").iconSprite,
+                LegacyResourcesAPI.Load<BuffDef>("BuffDefs/onfire").iconSprite,
                 Color.magenta,
                 false,
                 true);
 
             bubiburnDebuff = Modules.Content.CreateAndAddBuff("IronmouseBubiDebuff",
-                LegacyResourcesAPI.Load<BuffDef>("BuffDefs/HiddenInvincibility").iconSprite,
-                Color.magenta,
+                LegacyResourcesAPI.Load<BuffDef>("BuffDefs/onfire").iconSprite,
+                Color.black,
                 false,
                 true);
 

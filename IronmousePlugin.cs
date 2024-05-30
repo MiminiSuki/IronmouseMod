@@ -32,7 +32,7 @@ namespace IronmouseMod
         public const string DEVELOPER_PREFIX = "MIMI";
 
         public static IronmousePlugin instance;
-        
+
         void Awake()
         {
             instance = this;
@@ -48,6 +48,7 @@ namespace IronmouseMod
 
             // make a content pack and add it. this has to be last
             new Modules.ContentPacks().Initialize();
+
         }
     }
 }

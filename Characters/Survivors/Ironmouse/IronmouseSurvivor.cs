@@ -44,10 +44,10 @@ namespace IronmouseMod.Survivors.Ironmouse
 
             crosshair = Assets.LoadCrosshair("Standard"),
             podPrefab = LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/SurvivorPod"),
-
-            maxHealth = 90f,
+            // 110
+            maxHealth = 999f,
             healthRegen = 1f,
-            armor = 20f,
+            armor = 0f,
 
             jumpCount = 3,
         };
@@ -178,6 +178,7 @@ namespace IronmouseMod.Survivors.Ironmouse
                 skillDescriptionToken = IRONMOUSE_PREFIX + "PASSIVE_DESCRIPTION",
                 keywordToken = "KEYWORD_STUNNING",
                 icon = assetBundle.LoadAsset<Sprite>("texPassiveIcon"),
+
             };
         }
 
@@ -398,6 +399,7 @@ namespace IronmouseMod.Survivors.Ironmouse
             //assetBundle.LoadMaster(bodyPrefab, masterName);
         }
 
+
         private void AddHooks()
         {
             R2API.RecalculateStatsAPI.GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;
@@ -410,7 +412,7 @@ namespace IronmouseMod.Survivors.Ironmouse
 
             if (sender.HasBuff(IronmouseBuffs.zoomiesBuff))
             {
-                args.baseMoveSpeedAdd += 6;
+                args.baseMoveSpeedAdd += 2 * (sender.GetBuffCount(IronmouseBuffs.zoomiesBuff));
             }
 
             if (sender.HasBuff(IronmouseBuffs.speedyBuff))
@@ -442,7 +444,7 @@ namespace IronmouseMod.Survivors.Ironmouse
 
         private void inflictBubiBurn(GameObject victim, GameObject attacker, float procCoefficient, bool crit)
         {
-            DotController.InflictDot(victim, attacker, IronmouseDots.BubiBurn, 6, (crit ? 2 : 1) * procCoefficient);
+            DotController.InflictDot(victim, attacker, IronmouseDots.BubiBurn, 6, 1, 1);
         }
 
     }

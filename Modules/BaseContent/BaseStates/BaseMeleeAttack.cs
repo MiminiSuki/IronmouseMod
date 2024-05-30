@@ -67,7 +67,7 @@ namespace IronmouseMod.Modules.BaseStates
             attack.attacker = gameObject;
             attack.inflictor = gameObject;
             attack.teamIndex = GetTeam();
-            attack.damage = damageCoefficient * (damageStat + (moveSpeedStat / 10));
+            attack.damage = damageCoefficient * (damageStat) + (moveSpeedStat * 0.3f);
             attack.procCoefficient = procCoefficient;
             attack.hitEffectPrefab = hitEffectPrefab;
             attack.forceVector = bonusForce;
