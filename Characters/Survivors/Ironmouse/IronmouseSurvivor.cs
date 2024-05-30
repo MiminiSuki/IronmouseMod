@@ -401,6 +401,8 @@ namespace IronmouseMod.Survivors.Ironmouse
         private void AddHooks()
         {
             R2API.RecalculateStatsAPI.GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;
+            GlobalEventManager.onServerDamageDealt += this.GlobalEventManager_onServerDamageDealt;
+
         }
 
         private void RecalculateStatsAPI_GetStatCoefficients(CharacterBody sender, R2API.RecalculateStatsAPI.StatHookEventArgs args)
@@ -419,8 +421,10 @@ namespace IronmouseMod.Survivors.Ironmouse
 
         private void GlobalEventManager_onServerDamageDealt(DamageReport damageReport)
         {
+            //System.Console.WriteLine("getting damage report from server");
             if (DamageAPI.HasModdedDamageType(damageReport.damageInfo, IronmouseDots.MouseyDamage))
             {
+                //System.Console.WriteLine("sending information for dot");
                 inflictMouseyBurn(damageReport.victim.gameObject, damageReport.attacker, damageReport.damageInfo.procCoefficient, false);
             }
 
@@ -432,12 +436,13 @@ namespace IronmouseMod.Survivors.Ironmouse
 
         private void inflictMouseyBurn(GameObject victim, GameObject attacker, float procCoefficient, bool crit)
         {
-            DotController.InflictDot(victim, attacker, IronmouseDots.MouseyBurn, 5, 5, 5);
+            //System.Console.WriteLine("applying dot");
+            DotController.InflictDot(victim, attacker, IronmouseDots.MouseyBurn, 6, 1, 1);
         }
 
         private void inflictBubiBurn(GameObject victim, GameObject attacker, float procCoefficient, bool crit)
         {
-            DotController.InflictDot(victim, attacker, IronmouseDots.BubiBurn, 5, (crit ? 2 : 1) * procCoefficient);
+            DotController.InflictDot(victim, attacker, IronmouseDots.BubiBurn, 6, (crit ? 2 : 1) * procCoefficient);
         }
 
     }

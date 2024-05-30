@@ -2,6 +2,7 @@
 using IronmouseMod.Survivors.Ironmouse;
 using RoR2;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace IronmouseMod.Survivors.Ironmouse.SkillStates
 {
@@ -29,7 +30,8 @@ namespace IronmouseMod.Survivors.Ironmouse.SkillStates
             duration = baseDuration / attackSpeedStat;
             fireTime = firePercentTime * duration;
             characterBody.SetAimTimer(2f);
-            muzzleString = "Muzzle"; //this is telling the game where to place effects. change later
+            muzzleString = "Muzzle"; //this is telling the game where to place effects
+
 
             PlayAnimation("LeftArm, Override", "ShootGun", "ShootGun.playbackRate", 1.8f);
         }
@@ -60,6 +62,11 @@ namespace IronmouseMod.Survivors.Ironmouse.SkillStates
             if (!hasFired)
             {
                 hasFired = true;
+
+                if (NetworkServer.active)
+                {
+                    characterBody.AddTimedBuff(IronmouseBuffs.zoomiesBuff, 5f, 5);
+                }
 
                 characterBody.AddSpreadBloom(1.5f);
                 EffectManager.SimpleMuzzleFlash(Modules.Assets.voidFiendBeamMuzzleEffect, gameObject, muzzleString, false);
@@ -106,7 +113,7 @@ namespace IronmouseMod.Survivors.Ironmouse.SkillStates
 
         public override InterruptPriority GetMinimumInterruptPriority()
         {
-            return InterruptPriority.PrioritySkill;
+            return InterruptPriority.Skill;
         }
     }
 }
