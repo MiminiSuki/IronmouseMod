@@ -446,6 +446,5 @@ namespace IronmouseMod.Survivors.Ironmouse
         {
             DotController.InflictDot(victim, attacker, IronmouseDots.BubiBurn, 6, 1, 1);
         }
-
     }
 }

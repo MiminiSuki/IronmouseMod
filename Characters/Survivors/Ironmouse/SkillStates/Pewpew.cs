@@ -63,11 +63,6 @@ namespace IronmouseMod.Survivors.Ironmouse.SkillStates
             {
                 hasFired = true;
 
-                if (NetworkServer.active)
-                {
-                    characterBody.AddTimedBuff(IronmouseBuffs.zoomiesBuff, 5f, 5);
-                }
-
                 characterBody.AddSpreadBloom(1.5f);
                 EffectManager.SimpleMuzzleFlash(Modules.Assets.voidFiendBeamMuzzleEffect, gameObject, muzzleString, false);
                 Util.PlaySound(EntityStates.VoidJailer.Weapon.ChargeFire.attackSoundEffect, gameObject);
