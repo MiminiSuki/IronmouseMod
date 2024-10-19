@@ -77,7 +77,7 @@ namespace IronmouseMod.Survivors.Ironmouse
             
             AISkillDriver rollDriver = master.AddComponent<AISkillDriver>();
             //Selection Conditions
-            rollDriver.customName = "Use Utility Roll";
+            rollDriver.customName = "Use Utility Dash";
             rollDriver.skillSlot = SkillSlot.Utility;
             rollDriver.requireSkillReady = true;
             rollDriver.minDistance = 8;

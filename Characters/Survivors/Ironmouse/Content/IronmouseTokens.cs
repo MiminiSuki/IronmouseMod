@@ -21,13 +21,13 @@ namespace IronmouseMod.Survivors.Ironmouse
             string prefix = IronmouseSurvivor.IRONMOUSE_PREFIX;
 
             string desc = "Ironmouse is a mobile survivor, utilizing her mobile weave between enemies and defeat them gracefully.<color=#CCD3E0>" + Environment.NewLine + Environment.NewLine
-             + "< ! > Ironmouse plays a hit and run play style. Get in, deal damage with Spin, and use your mobility to get out and attack safely with Pewpew!" + Environment.NewLine + Environment.NewLine
-             + "< ! > idk" + Environment.NewLine + Environment.NewLine
-             + "< ! > fill these out later" + Environment.NewLine + Environment.NewLine
-             + "< ! > you wouldn't leave them like this, would you?" + Environment.NewLine + Environment.NewLine;
+             + "< ! > Ironmouse plays a hit and run play style. Get in, deal damage with Spin, get out and attack safely with Pew pew" + Environment.NewLine + Environment.NewLine
+             + "< ! > Hitting enemies that already have the Zoomies! debuff won't give you extra stacks of the passive. Focus on attacking different enemies to maximize stacks." + Environment.NewLine + Environment.NewLine
+             + "< ! > Ironmouse synergizes best with items that will help your burst damage, so you can maximize your Spin damage." + Environment.NewLine + Environment.NewLine
+             + "< ! > Ironmouse has more jumps than the average survivor. She can jump up to 3 times!" + Environment.NewLine + Environment.NewLine;
 
             string outro = "..and so she left, ready for her next big stream.";
-            string outroFailure = "..and so she died. lol. lmao even. no more cinnamonroll for you dummy.";
+            string outroFailure = "..and so she died. lol. lmao even.";
 
             Language.Add(prefix + "NAME", "Ironmouse");
             Language.Add(prefix + "DESCRIPTION", desc);
@@ -42,27 +42,27 @@ namespace IronmouseMod.Survivors.Ironmouse
 
             #region Passive
             Language.Add(prefix + "PASSIVE_NAME", "Zoomies!");
-            Language.Add(prefix + "PASSIVE_DESCRIPTION", "Gains a movement speed bonus every time you use a skill");
+            Language.Add(prefix + "PASSIVE_DESCRIPTION", "Your attacks cause enemies to burn, taking damage over 6 seconds. Gains a stacking movement speed bonus every time you apply the effect.");
             #endregion
 
             #region Primary
-            Language.Add(prefix + "PRIMARY_PEWPEW_NAME", "Pew Pew!");
-            Language.Add(prefix + "PRIMARY_PEWPEW_DESCRIPTION", Tokens.agilePrefix + $"Shoot a beam that deals <style=cIsDamage>{100f * IronmouseStaticValues.pewpewDamageCoefficient}% damage</style>.");
+            Language.Add(prefix + "PRIMARY_PEWPEW_NAME", "Pew Pew");
+            Language.Add(prefix + "PRIMARY_PEWPEW_DESCRIPTION", Tokens.agilePrefix + $" Shoot a beam that deals <style=cIsDamage>{100f * IronmouseStaticValues.pewpewDamageCoefficient}% damage</style>.");
             #endregion
 
             #region Secondary
-            Language.Add(prefix + "SECONDARY_GUN_NAME", "Spin!");
-            Language.Add(prefix + "SECONDARY_GUN_DESCRIPTION", Tokens.agilePrefix + Tokens.heavyPrefix + $"Spin around and deal <style=cIsDamage>{100f * IronmouseStaticValues.spinDamageCoefficient}% damage</style>. Hitting an enemy with this skill applies " + Tokens.mouseyburnPrefix + ". Using the skill also speeds you up a bit!");
+            Language.Add(prefix + "SECONDARY_SPIN_NAME", "Spin");
+            Language.Add(prefix + "SECONDARY_SPIN_DESCRIPTION", Tokens.agilePrefix + " " + Tokens.heavyPrefix + $" Spin around and deal <style=cIsDamage>{100f * IronmouseStaticValues.spinDamageCoefficient}% damage</style>.");
             #endregion
 
             #region Utility
-            Language.Add(prefix + "UTILITY_ROLL_NAME", "Roll");
-            Language.Add(prefix + "UTILITY_ROLL_DESCRIPTION", "Roll a short distance, gaining <style=cIsUtility>300 armor</style>. <style=cIsUtility>You cannot be hit during the roll.</style>");
+            Language.Add(prefix + "UTILITY_DASH_NAME", "Dash");
+            Language.Add(prefix + "UTILITY_DASH_DESCRIPTION", "Dash a short distance in any direction.");
             #endregion
 
             #region Special
-            Language.Add(prefix + "SPECIAL_BOMB_NAME", "Bomb");
-            Language.Add(prefix + "SPECIAL_BOMB_DESCRIPTION", $"Throw a bomb for <style=cIsDamage>{100f * IronmouseStaticValues.bombDamageCoefficient}% damage</style>.");
+            Language.Add(prefix + "SPECIAL_SPEED_NAME", "Ready, Set... Go!");
+            Language.Add(prefix + "SPECIAL_SPEED_DESCRIPTION", $"Gain an increasing movement speed buff based on the amount of " + Tokens.mouseyzoomisPrefix + ".");
             #endregion
 
             #region Achievements

@@ -10,7 +10,10 @@ namespace IronmouseMod.Survivors.Ironmouse
         public static BuffDef zoomiesBuff;
 
         public static BuffDef mouseyburnDebuff;
-        public static BuffDef bubiburnDebuff;
+
+        public static BuffDef readyBuff;
+        public static BuffDef setBuff;
+        public static BuffDef goBuff;
 
         public static void Init(AssetBundle assetBundle)
         {
@@ -21,7 +24,7 @@ namespace IronmouseMod.Survivors.Ironmouse
                 false);
 
             zoomiesBuff = Modules.Content.CreateAndAddBuff("IronmouseZoomiesBuff",
-                LegacyResourcesAPI.Load<BuffDef>("BuffDefs/whipboost").iconSprite,
+                LegacyResourcesAPI.Load<BuffDef>("BuffDefs/onfire").iconSprite,
                 Color.magenta,
                 true,
                 false);
@@ -32,13 +35,23 @@ namespace IronmouseMod.Survivors.Ironmouse
                 false,
                 true);
 
-            bubiburnDebuff = Modules.Content.CreateAndAddBuff("IronmouseBubiDebuff",
-                LegacyResourcesAPI.Load<BuffDef>("BuffDefs/onfire").iconSprite,
-                Color.black,
+            readyBuff = Modules.Content.CreateAndAddBuff("IronmouseSpeedyBuff",
+                LegacyResourcesAPI.Load<BuffDef>("BuffDefs/whipboost").iconSprite,
+                Color.red,
                 false,
-                true);
+                false);
 
+            setBuff = Modules.Content.CreateAndAddBuff("IronmouseSpeedyBuff",
+                LegacyResourcesAPI.Load<BuffDef>("BuffDefs/whipboost").iconSprite,
+                Color.yellow,
+                false,
+                false);
 
+            goBuff = Modules.Content.CreateAndAddBuff("IronmouseSpeedyBuff",
+                LegacyResourcesAPI.Load<BuffDef>("BuffDefs/whipboost").iconSprite,
+                Color.green,
+                false,
+                false);
         }
     }
 }

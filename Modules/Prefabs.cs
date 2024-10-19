@@ -309,7 +309,7 @@ namespace IronmouseMod.Modules
 
             characterModel.autoPopulateLightInfos = true;
             characterModel.invisibilityCount = 0;
-            characterModel.temporaryOverlays = new List<TemporaryOverlay>();
+            characterModel.temporaryOverlays = new List<TemporaryOverlayInstance>();
 
             if (!preattached)
             {
@@ -567,7 +567,7 @@ namespace IronmouseMod.Modules
             GameObject newMaster = assetBundle.LoadAsset<GameObject>(assetName);
 
             BaseAI baseAI = newMaster.GetComponent<BaseAI>();
-            if(baseAI == null)
+            if (baseAI == null)
             {
                 baseAI = newMaster.AddComponent<BaseAI>();
                 baseAI.aimVectorDampTime = 0.1f;
@@ -576,7 +576,7 @@ namespace IronmouseMod.Modules
             baseAI.scanState = new EntityStates.SerializableEntityStateType(typeof(EntityStates.AI.Walker.Wander));
 
             EntityStateMachine stateMachine = newMaster.GetComponent<EntityStateMachine>();
-            if(stateMachine == null)
+            if (stateMachine == null)
             {
                 AddEntityStateMachine(newMaster, "AI", typeof(EntityStates.AI.Walker.Wander), typeof(EntityStates.AI.Walker.Wander));
             }
@@ -584,7 +584,7 @@ namespace IronmouseMod.Modules
             baseAI.stateMachine = stateMachine;
 
             CharacterMaster characterMaster = newMaster.GetComponent<CharacterMaster>();
-            if(characterMaster == null)
+            if (characterMaster == null)
             {
                 characterMaster = newMaster.AddComponent<CharacterMaster>();
             }

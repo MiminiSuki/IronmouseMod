@@ -10,9 +10,9 @@ namespace IronmouseMod.Survivors.Ironmouse
 
             Modules.Content.AddEntityState(typeof(Pewpew));
 
-            Modules.Content.AddEntityState(typeof(Roll));
+            Modules.Content.AddEntityState(typeof(Dash));
 
-            Modules.Content.AddEntityState(typeof(ThrowBomb));
+            Modules.Content.AddEntityState(typeof(ReadySetGo));
         }
     }
 }

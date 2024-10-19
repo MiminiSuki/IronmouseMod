@@ -15,17 +15,17 @@ namespace IronmouseMod.Survivors.Ironmouse
     public class IronmouseSurvivor : SurvivorBase<IronmouseSurvivor>
     {
         //used to load the assetbundle for this character. must be unique
-        public override string assetBundleName => "ironmousebundle"; //the unity asset bundle. All the other shit is in this
+        public override string assetBundleName => "mouseassetbundle"; //the unity asset bundle. All the other shit is in this
 
         //the name of the prefab we will create. conventionally ending in "Body". must be unique
-        public override string bodyName => "HenryBody"; //Model or what ever
+        public override string bodyName => "IronmouseBody"; //Model or what ever
 
         //name of the ai master for vengeance and goobo. must be unique
-        public override string masterName => "HenryMonsterMaster"; //yeah
+        public override string masterName => "IronmouseMonsterMaster"; //yeah
 
         //the names of the prefabs you set up in unity that we will use to build your character
-        public override string modelPrefabName => "mdlHenry"; //in game model
-        public override string displayPrefabName => "HenryDisplay"; //model that is used in the lobby
+        public override string modelPrefabName => "mdlIronmouse"; //in game model
+        public override string displayPrefabName => "IronmouseDisplay"; //model that is used in the lobby
 
         public const string IRONMOUSE_PREFIX = IronmousePlugin.DEVELOPER_PREFIX + "_IRONMOUSE_";
 
@@ -38,16 +38,16 @@ namespace IronmouseMod.Survivors.Ironmouse
             bodyNameToken = IRONMOUSE_PREFIX + "NAME",
             subtitleNameToken = IRONMOUSE_PREFIX + "SUBTITLE",
 
-            characterPortrait = assetBundle.LoadAsset<Texture>("texHenryIcon"),
+            characterPortrait = assetBundle.LoadAsset<Texture>("texIronmouseIcon"),
             bodyColor = Color.white,
             sortPosition = 100,
 
-            crosshair = Assets.LoadCrosshair("Standard"),
+            crosshair = Modules.Assets.LoadCrosshair("Standard"),
             podPrefab = LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/SurvivorPod"),
             // 110
-            maxHealth = 999f,
+            maxHealth = 110f,
             healthRegen = 1f,
-            armor = 0f,
+            armor = 12f,
 
             jumpCount = 3,
         };
@@ -57,22 +57,27 @@ namespace IronmouseMod.Survivors.Ironmouse
         {
                 new CustomRendererInfo
                 {
-                    childName = "SwordModel",
-                    material = assetBundle.LoadMaterial("matHenry"),
+                    childName = "IronmouseHair",
+                    material = assetBundle.LoadMaterial("hairMaterial"),
                 },
                 new CustomRendererInfo
                 {
-                    childName = "GunModel",
+                    childName = "IronmouseShoeBow",
+                    material = assetBundle.LoadMaterial("mouthMaterial"),
                 },
                 new CustomRendererInfo
                 {
-                    childName = "Model",
+                    childName = "IronmouseFace",
+                    material = assetBundle.LoadMaterial("faceMaterial"),
+                },
+                new CustomRendererInfo
+                {
+                    childName = "IronmouseBody",
+                    material = assetBundle.LoadMaterial("bodyMaterial"),
                 }
         };
 
         public override UnlockableDef characterUnlockableDef => IronmouseUnlockables.characterUnlockableDef;
-
-        public override ItemDisplaysBase itemDisplays => new IronmouseItemDisplays();
 
         //set in base classes
         public override AssetBundle assetBundle { get; protected set; }
@@ -136,7 +141,7 @@ namespace IronmouseMod.Survivors.Ironmouse
         {
             //example of how to create a HitBoxGroup. see summary for more details
             //change later
-            Prefabs.SetupHitBoxGroup(characterModelObject, "SwordGroup", "SwordHitbox");
+            Prefabs.SetupHitBoxGroup(characterModelObject, "SpinGroup", "SpinHitbox");
         }
 
         public override void InitializeEntityStateMachines()
@@ -176,7 +181,6 @@ namespace IronmouseMod.Survivors.Ironmouse
                 enabled = true,
                 skillNameToken = IRONMOUSE_PREFIX + "PASSIVE_NAME",
                 skillDescriptionToken = IRONMOUSE_PREFIX + "PASSIVE_DESCRIPTION",
-                keywordToken = "KEYWORD_STUNNING",
                 icon = assetBundle.LoadAsset<Sprite>("texPassiveIcon"),
 
             };
@@ -191,10 +195,10 @@ namespace IronmouseMod.Survivors.Ironmouse
             //it is also a SteppedSkillDef. Custom Skilldefs are very useful for custom behaviors related to casting a skill. see ror2's different skilldefs for reference
             SkillDef primarySkillDef1 = Skills.CreateSkillDef(new SkillDefInfo
                 (
-                    "HenrySlash",
+                    "IronmousePewpew",
                     IRONMOUSE_PREFIX + "PRIMARY_PEWPEW_NAME",
                     IRONMOUSE_PREFIX + "PRIMARY_PEWPEW_DESCRIPTION",
-                    assetBundle.LoadAsset<Sprite>("texPrimaryIcon"),
+                    assetBundle.LoadAsset<Sprite>("texPewpewIcon"),
                     new EntityStates.SerializableEntityStateType(typeof(SkillStates.Pewpew)),
                     "Weapon",
                     true
@@ -210,14 +214,13 @@ namespace IronmouseMod.Survivors.Ironmouse
             //here is a basic skill def with all fields accounted for
             SkillDef secondarySkillDef1 = Skills.CreateSkillDef(new SkillDefInfo
             {
-                skillName = "HenryGun",
-                skillNameToken = IRONMOUSE_PREFIX + "SECONDARY_GUN_NAME",
-                skillDescriptionToken = IRONMOUSE_PREFIX + "SECONDARY_GUN_DESCRIPTION",
+                skillName = "IronmouseSpin",
+                skillNameToken = IRONMOUSE_PREFIX + "SECONDARY_SPIN_NAME",
+                skillDescriptionToken = IRONMOUSE_PREFIX + "SECONDARY_SPIN_DESCRIPTION",
                 keywordTokens = new string[] { 
                     Tokens.agileKeyword,
-                    Tokens.heavyKeyword,
-                    Tokens.mouseyburnKeyword },
-                skillIcon = assetBundle.LoadAsset<Sprite>("texSecondaryIcon"),
+                    Tokens.heavyKeyword, },
+                skillIcon = assetBundle.LoadAsset<Sprite>("texSpinIcon"),
 
                 activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.Spin)),
                 activationStateMachineName = "Weapon",
@@ -253,12 +256,12 @@ namespace IronmouseMod.Survivors.Ironmouse
             //here's a skilldef of a typical movement skill.
             SkillDef utilitySkillDef1 = Skills.CreateSkillDef(new SkillDefInfo
             {
-                skillName = "HenryRoll",
-                skillNameToken = IRONMOUSE_PREFIX + "UTILITY_ROLL_NAME",
-                skillDescriptionToken = IRONMOUSE_PREFIX + "UTILITY_ROLL_DESCRIPTION",
-                skillIcon = assetBundle.LoadAsset<Sprite>("texUtilityIcon"),
+                skillName = "IronmouseRoll",
+                skillNameToken = IRONMOUSE_PREFIX + "UTILITY_DASH_NAME",
+                skillDescriptionToken = IRONMOUSE_PREFIX + "UTILITY_DASH_DESCRIPTION",
+                skillIcon = assetBundle.LoadAsset<Sprite>("texDashIcon"),
 
-                activationState = new EntityStates.SerializableEntityStateType(typeof(Roll)),
+                activationState = new EntityStates.SerializableEntityStateType(typeof(Dash)),
                 activationStateMachineName = "Body",
                 interruptPriority = EntityStates.InterruptPriority.PrioritySkill,
 
@@ -291,20 +294,23 @@ namespace IronmouseMod.Survivors.Ironmouse
             //a basic skill. some fields are omitted and will just have default values
             SkillDef specialSkillDef1 = Skills.CreateSkillDef(new SkillDefInfo
             {
-                skillName = "HenryBomb",
-                skillNameToken = IRONMOUSE_PREFIX + "SPECIAL_BOMB_NAME",
-                skillDescriptionToken = IRONMOUSE_PREFIX + "SPECIAL_BOMB_DESCRIPTION",
-                skillIcon = assetBundle.LoadAsset<Sprite>("texSpecialIcon"),
+                skillName = "IronmouseSpeed",
+                skillNameToken = IRONMOUSE_PREFIX + "SPECIAL_SPEED_NAME",
+                skillDescriptionToken = IRONMOUSE_PREFIX + "SPECIAL_SPEED_DESCRIPTION",
+                skillIcon = assetBundle.LoadAsset<Sprite>("texSpeedIcon"),
 
-                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.ThrowBomb)),
+                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.ReadySetGo)),
                 //setting this to the "weapon2" EntityStateMachine allows us to cast this skill at the same time primary, which is set to the "weapon" EntityStateMachine
                 activationStateMachineName = "Weapon2",
                 interruptPriority = EntityStates.InterruptPriority.Skill,
 
                 baseMaxStock = 1,
-                baseRechargeInterval = 10f,
+                baseRechargeInterval = 25f,
 
-                isCombatSkill = true,
+                isCombatSkill = false,
+                canceledFromSprinting = false,
+                cancelSprintingOnActivation = false,
+                forceSprintDuringState = false,
                 mustKeyPress = false,
             });
 
@@ -324,7 +330,7 @@ namespace IronmouseMod.Survivors.Ironmouse
 
             #region DefaultSkin
             //this creates a SkinDef with all default fields
-            SkinDef defaultSkin = Skins.CreateSkinDef("DEFAULT_SKIN",
+            SkinDef defaultSkin = Modules.Skins.CreateSkinDef("DEFAULT_SKIN",
                 assetBundle.LoadAsset<Sprite>("texMainSkin"),
                 defaultRendererinfos,
                 prefabCharacterModel.gameObject);
@@ -390,16 +396,16 @@ namespace IronmouseMod.Survivors.Ironmouse
             //you must only do one of these. adding duplicate masters breaks the game.
 
             //if you're lazy or prototyping you can simply copy the AI of a different character to be used
-            Modules.Prefabs.CloneDopplegangerMaster(bodyPrefab, masterName, "Merc");
+            //Modules.Prefabs.CloneDopplegangerMaster(bodyPrefab, masterName, "Merc");
 
             //how to set up AI in code
-            IronmouseAI.Init(bodyPrefab, masterName);
+            //IronmouseAI.Init(bodyPrefab, masterName);
 
             //how to load a master set up in unity, can be an empty gameobject with just AISkillDriver components
-            //assetBundle.LoadMaster(bodyPrefab, masterName);
+            assetBundle.LoadMaster(bodyPrefab, masterName);
         }
 
-
+        #region hooks
         private void AddHooks()
         {
             R2API.RecalculateStatsAPI.GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;
@@ -412,12 +418,27 @@ namespace IronmouseMod.Survivors.Ironmouse
 
             if (sender.HasBuff(IronmouseBuffs.zoomiesBuff))
             {
-                args.baseMoveSpeedAdd += 2 * (sender.GetBuffCount(IronmouseBuffs.zoomiesBuff));
+                args.baseMoveSpeedAdd += 0.12f * (sender.GetBuffCount(IronmouseBuffs.zoomiesBuff));
             }
 
             if (sender.HasBuff(IronmouseBuffs.speedyBuff))
             {
-                args.baseMoveSpeedAdd += 8;
+                args.baseMoveSpeedAdd += 8 * Spin.statAttackSpeed;
+            }
+
+            if (sender.HasBuff(IronmouseBuffs.readyBuff))
+            {
+                args.baseMoveSpeedAdd += 2.3f + (0.04f * (sender.GetBuffCount(IronmouseBuffs.zoomiesBuff)));
+            }
+
+            if (sender.HasBuff(IronmouseBuffs.setBuff))
+            {
+                args.baseMoveSpeedAdd += 2.3f + (0.04f * (sender.GetBuffCount(IronmouseBuffs.zoomiesBuff)));
+            }
+
+            if (sender.HasBuff(IronmouseBuffs.goBuff))
+            {
+                args.baseMoveSpeedAdd += 2.4f + (0.04f * (sender.GetBuffCount(IronmouseBuffs.zoomiesBuff)));
             }
         }
 
@@ -426,25 +447,23 @@ namespace IronmouseMod.Survivors.Ironmouse
             //System.Console.WriteLine("getting damage report from server");
             if (DamageAPI.HasModdedDamageType(damageReport.damageInfo, IronmouseDots.MouseyDamage))
             {
+                if (!damageReport.victimBody.HasBuff(IronmouseBuffs.mouseyburnDebuff))
+                {
+                    damageReport.attackerBody.AddBuff(IronmouseBuffs.zoomiesBuff);
+                }
+
                 //System.Console.WriteLine("sending information for dot");
                 inflictMouseyBurn(damageReport.victim.gameObject, damageReport.attacker, damageReport.damageInfo.procCoefficient, false);
-            }
-
-            if (DamageAPI.HasModdedDamageType(damageReport.damageInfo, IronmouseDots.BubiDamage))
-            {
-                inflictBubiBurn(damageReport.victim.gameObject, damageReport.attacker, damageReport.damageInfo.procCoefficient, false);
+                damageReport.victimBody.AddTimedBuff(IronmouseBuffs.mouseyburnDebuff, 3);
             }
         }
 
         private void inflictMouseyBurn(GameObject victim, GameObject attacker, float procCoefficient, bool crit)
         {
             //System.Console.WriteLine("applying dot");
-            DotController.InflictDot(victim, attacker, IronmouseDots.MouseyBurn, 6, 1, 1);
+            DotController.InflictDot(victim, attacker, IronmouseDots.MouseyBurn, 3, 1, 1);
         }
 
-        private void inflictBubiBurn(GameObject victim, GameObject attacker, float procCoefficient, bool crit)
-        {
-            DotController.InflictDot(victim, attacker, IronmouseDots.BubiBurn, 6, 1, 1);
-        }
+        #endregion hooks
     }
 }

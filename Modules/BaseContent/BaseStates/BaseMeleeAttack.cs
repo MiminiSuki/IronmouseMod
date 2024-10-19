@@ -15,10 +15,10 @@ namespace IronmouseMod.Modules.BaseStates
     {
         public int swingIndex;
 
-        protected string hitboxGroupName = "SwordGroup";
+        protected string hitboxGroupName = "SpinGroup";
 
         protected DamageType damageType = DamageType.Generic;
-        protected float damageCoefficient = 3.5f;
+        protected float damageCoefficient = IronmouseStaticValues.spinDamageCoefficient;
         protected float procCoefficient = 1f;
         protected float pushForce = 300f;
         protected Vector3 bonusForce = Vector3.zero;
@@ -51,14 +51,18 @@ namespace IronmouseMod.Modules.BaseStates
         private HitStopCachedState hitStopCachedState;
         private Vector3 storedVelocity;
 
+        private float damageMultiplier;
+
         public OverlapAttack overlapAttack = new OverlapAttack();
 
         public override void OnEnter()
         {
             base.OnEnter();
-            duration = baseDuration / attackSpeedStat;
+            duration = baseDuration;
             animator = GetModelAnimator();
             StartAimMode(0.5f + duration, false);
+
+            damageMultiplier = damageStat + (moveSpeedStat * 0.8f);
 
             PlayAttackAnimation();
 
@@ -67,7 +71,7 @@ namespace IronmouseMod.Modules.BaseStates
             attack.attacker = gameObject;
             attack.inflictor = gameObject;
             attack.teamIndex = GetTeam();
-            attack.damage = damageCoefficient * (damageStat) + (moveSpeedStat * 0.3f);
+            attack.damage = damageCoefficient * damageMultiplier;
             attack.procCoefficient = procCoefficient;
             attack.hitEffectPrefab = hitEffectPrefab;
             attack.forceVector = bonusForce;

@@ -8,12 +8,10 @@
         public const string heavyPrefix = "<style=cIsUtility>Heavy.</style>";
         public static string heavyKeyword = KeywordText("Heavy", "The skill deals more damage the faster you are moving.");
 
-        //these are the unique dot debuffs, one for mouse and one for bubi
-        public const string mouseyburnPrefix = "<color=#B55385>Mousey Burn</color>";
-        public static string mouseyburnKeyword = KeywordText("Mousey Burn", "Apply an unique burn effect that deals some damage idk.");
         //had no ideia how to add theses things, used the Seamstress code for reference, thanks to suyoikenko
-        public const string bubiburnPrefix = "<color=#B55385>Bubi Burn</color>";
-        public static string bubiburnKeyword = KeywordText("Bubi Burn", "Apply an unique burn effect that deals some damage idk.");
+        public const string mouseyzoomisPrefix = "<color=#B55385>Zoomies!</color>";
+
+
 
         public static string DamageText(string text)
         {

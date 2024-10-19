@@ -8,11 +8,11 @@ namespace IronmouseMod.Survivors.Ironmouse.SkillStates
 {
     public class Spin : BaseMeleeAttack
     {
-        private int amountPreZoomies;
-        private int amountZoomies;
+        public static float statAttackSpeed;
+        private GameObject spinEffect;
         public override void OnEnter()
         {
-            hitboxGroupName = "SwordGroup";
+            hitboxGroupName = "SpinGroup";
             damageType = DamageType.Generic;
             damageCoefficient = IronmouseStaticValues.spinDamageCoefficient;
             procCoefficient = 1f;
@@ -20,6 +20,8 @@ namespace IronmouseMod.Survivors.Ironmouse.SkillStates
             bonusForce = Vector3.zero;
             baseDuration = 1.2f;
             duration = baseDuration;
+
+            statAttackSpeed = attackSpeedStat;
 
             ApplyModdedDamageType(overlapAttack);
 
@@ -33,27 +35,33 @@ namespace IronmouseMod.Survivors.Ironmouse.SkillStates
 
             hitStopDuration = 0.012f;
             attackRecoil = 0.5f;
-            hitHopVelocity = 99999f;
+            hitHopVelocity = 15f;
 
-            swingSoundString = "HenrySwordSwing";
-            hitSoundString = "";
-            muzzleString = "SwingLeft";
-            playbackRateParam = "Slash.playbackRate";
-            swingEffectPrefab = IronmouseAssets.swordSwingEffect;
-            hitEffectPrefab = IronmouseAssets.swordHitImpactEffect;
+            swingSoundString = "Play_halcyonite_skill3_loop";
+            hitSoundString = "Play_voidman_m2_small_impact";
+            muzzleString = "SpinMuzzle";
+            playbackRateParam = "Spin.playbackRate";
+            swingEffectPrefab = IronmouseAssets.spinSwingEffect;
+            hitEffectPrefab = Modules.Assets.voidFiendBeamImpact;
 
-            impactSound = IronmouseAssets.swordHitSoundEvent.index;
+            impactSound = IronmouseAssets.spinHitSoundEvent.index;
 
             if (NetworkServer.active)
             {
                 characterBody.AddTimedBuff(IronmouseBuffs.speedyBuff, baseDuration);
-                AddPassive();
             }
            
             if (characterMotor && !characterMotor.isGrounded)
             {
-                 SmallHop(characterMotor, 10);
+                 SmallHop(characterMotor, 12);
             }
+
+            //ChildLocator childLocator = GetModelChildLocator();
+            //if (childLocator)
+            //{
+            //    spinEffect = childLocator.FindChild("SpinTrailEffect").gameObject;
+            //    spinEffect.SetActive(true);
+            //}
 
             base.OnEnter();
         }
@@ -66,22 +74,7 @@ namespace IronmouseMod.Survivors.Ironmouse.SkillStates
 
         protected override void PlayAttackAnimation()
         {
-            PlayCrossfade("Gesture, Override", "Slash" + 1, playbackRateParam, duration, 0.1f * duration);
-        }
-        private void AddPassive()
-        {
-            characterBody.AddTimedBuff(IronmouseBuffs.zoomiesBuff, 5, 5);
-
-            if (characterBody.GetBuffCount(IronmouseBuffs.zoomiesBuff) > 0)
-            {
-                foreach (CharacterBody.TimedBuff timedBuff in characterBody.timedBuffs)
-                {
-                    if (timedBuff.buffIndex == IronmouseBuffs.zoomiesBuff.buffIndex)
-                    {
-                        timedBuff.timer = 5;
-                    }
-                }
-            }
+            PlayCrossfade("FullBody, Override", "Spin", playbackRateParam, duration, 0.1f * duration);
         }
 
         protected override void PlaySwingEffect()
@@ -96,6 +89,8 @@ namespace IronmouseMod.Survivors.Ironmouse.SkillStates
 
         public override void OnExit()
         {
+            Util.PlaySound("Stop_halcyonite_skill3_loop", base.gameObject);
+            //spinEffect.SetActive(false);
             base.OnExit();
         }
 
