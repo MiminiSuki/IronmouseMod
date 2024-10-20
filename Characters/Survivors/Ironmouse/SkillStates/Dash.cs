@@ -58,10 +58,10 @@ namespace IronmouseMod.Survivors.Ironmouse.SkillStates
         {
             base.FixedUpdate();
 
-            characterMotor.rootMotion += dashVector * rollSpeed * Time.fixedDeltaTime;
+            characterMotor.rootMotion += dashVector * (moveSpeedStat / 3) * rollSpeed * Time.fixedDeltaTime;
 
             rollSpeedFallOff -= 0.02f * Time.fixedDeltaTime;
-            rollSpeed = (rollSpeed * rollSpeedFallOff) + (moveSpeedStat / 2);
+            rollSpeed = rollSpeed * rollSpeedFallOff;
 
             if (isAuthority && fixedAge >= duration)
             {

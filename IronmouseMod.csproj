@@ -15,9 +15,15 @@
 
   <ItemGroup>
     <None Remove=".gitignore" />
+    <None Remove="mouseassetbundle" />
     <None Remove="nuget.config" />
   </ItemGroup>
 
+
+
+  <ItemGroup>
+    <EmbeddedResource Include="mouseassetbundle" />
+  </ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="BepInEx.Analyzers" Version="1.0.*">
 			<PrivateAssets>all</PrivateAssets>
@@ -54,6 +60,9 @@
 		</Reference>
 		<Reference Include="R2API.Skins">
 			<HintPath>..\libs\R2API.Skins.dll</HintPath>
+		</Reference>
+		<Reference Include="CustomEmotesAPI">
+			<HintPath>..\libs\CustomEmotesAPI.dll</HintPath>
 		</Reference>
 	</ItemGroup>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

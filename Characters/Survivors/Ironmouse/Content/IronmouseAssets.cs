@@ -15,7 +15,7 @@ namespace IronmouseMod.Survivors.Ironmouse
         public static NetworkSoundEventDef spinHitSoundEvent;
 
 
-        private static AssetBundle _assetBundle;
+        internal static AssetBundle _assetBundle;
 
         public static void Init(AssetBundle assetBundle)
         {

@@ -107,6 +107,8 @@ namespace IronmouseMod.Survivors.Ironmouse
 
             base.InitializeCharacter();
 
+            IronmousePlugin.ironmouseBodyPrefab = this.bodyPrefab;
+
             IronmouseConfig.Init();
             IronmouseStates.Init();
             IronmouseTokens.Init();
@@ -122,8 +124,6 @@ namespace IronmouseMod.Survivors.Ironmouse
             InitializeCharacterMaster();
 
             AdditionalBodySetup();
-
-            AddHooks();
 
             CharacterBody HenryBody = bodyPrefab.GetComponent<CharacterBody>();
             HenryBody.bodyFlags |= CharacterBody.BodyFlags.SprintAnyDirection;
@@ -404,66 +404,5 @@ namespace IronmouseMod.Survivors.Ironmouse
             //how to load a master set up in unity, can be an empty gameobject with just AISkillDriver components
             assetBundle.LoadMaster(bodyPrefab, masterName);
         }
-
-        #region hooks
-        private void AddHooks()
-        {
-            R2API.RecalculateStatsAPI.GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;
-            GlobalEventManager.onServerDamageDealt += this.GlobalEventManager_onServerDamageDealt;
-
-        }
-
-        private void RecalculateStatsAPI_GetStatCoefficients(CharacterBody sender, R2API.RecalculateStatsAPI.StatHookEventArgs args)
-        {
-
-            if (sender.HasBuff(IronmouseBuffs.zoomiesBuff))
-            {
-                args.baseMoveSpeedAdd += 0.12f * (sender.GetBuffCount(IronmouseBuffs.zoomiesBuff));
-            }
-
-            if (sender.HasBuff(IronmouseBuffs.speedyBuff))
-            {
-                args.baseMoveSpeedAdd += 8 * Spin.statAttackSpeed;
-            }
-
-            if (sender.HasBuff(IronmouseBuffs.readyBuff))
-            {
-                args.baseMoveSpeedAdd += 2.3f + (0.04f * (sender.GetBuffCount(IronmouseBuffs.zoomiesBuff)));
-            }
-
-            if (sender.HasBuff(IronmouseBuffs.setBuff))
-            {
-                args.baseMoveSpeedAdd += 2.3f + (0.04f * (sender.GetBuffCount(IronmouseBuffs.zoomiesBuff)));
-            }
-
-            if (sender.HasBuff(IronmouseBuffs.goBuff))
-            {
-                args.baseMoveSpeedAdd += 2.4f + (0.04f * (sender.GetBuffCount(IronmouseBuffs.zoomiesBuff)));
-            }
-        }
-
-        private void GlobalEventManager_onServerDamageDealt(DamageReport damageReport)
-        {
-            //System.Console.WriteLine("getting damage report from server");
-            if (DamageAPI.HasModdedDamageType(damageReport.damageInfo, IronmouseDots.MouseyDamage))
-            {
-                if (!damageReport.victimBody.HasBuff(IronmouseBuffs.mouseyburnDebuff))
-                {
-                    damageReport.attackerBody.AddBuff(IronmouseBuffs.zoomiesBuff);
-                }
-
-                //System.Console.WriteLine("sending information for dot");
-                inflictMouseyBurn(damageReport.victim.gameObject, damageReport.attacker, damageReport.damageInfo.procCoefficient, false);
-                damageReport.victimBody.AddTimedBuff(IronmouseBuffs.mouseyburnDebuff, 3);
-            }
-        }
-
-        private void inflictMouseyBurn(GameObject victim, GameObject attacker, float procCoefficient, bool crit)
-        {
-            //System.Console.WriteLine("applying dot");
-            DotController.InflictDot(victim, attacker, IronmouseDots.MouseyBurn, 3, 1, 1);
-        }
-
-        #endregion hooks
     }
 }
